@@ -49,4 +49,3 @@ RUN mkdir -p /opt/riscv-projects
 VOLUME /opt/riscv-projects
 WORKDIR /opt/riscv-projects
 
-CMD /bin/bash
