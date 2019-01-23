@@ -1,0 +1,20 @@
+FROM alpine:latest
+MAINTAINER Cody Xie <xiekedi@gmail.com>
+
+RUN apk add --no-cache --update \
+	gcompat
+
+ENV RISCV=/opt/riscv
+ENV PATH=$RISCV/bin:$PATH
+ENV LD_LIBRARY_PATH=/opt/riscv/lib:$LD_LIBRARY_PATH
+
+COPY --from=codysky/riscv-tools:ubuntu32 /opt/riscv /opt/riscv
+COPY --from=codysky/riscv-tools:ubuntu /opt/riscv /opt/riscv
+
+RUN riscv64-unknown-elf-gcc -v
+RUN riscv32-unknown-elf-gcc -v
+
+RUN mkdir -p /opt/riscv-projects
+VOLUME /opt/riscv-projects
+WORKDIR /opt/riscv-projects
+
