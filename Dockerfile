@@ -31,11 +31,10 @@ RUN apt-get update && apt-get install -y \
   && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /opt/riscv
-RUN export RISCV=/opt/riscv
-RUN export PATH=$RISCV/bin:$PATH
+ENV RISCV=/opt/riscv
+ENV PATH=$RISCV/bin:$PATH
 
 WORKDIR /opt/riscv-build/riscv-tools
-ENV RISCV=/opt/riscv
 RUN ./build.sh
 RUN riscv64-unknown-elf-gcc -v
 
@@ -43,8 +42,8 @@ RUN riscv64-unknown-elf-gcc -v
 FROM alpine:latest
 
 COPY --from=builder /opt/riscv /opt/riscv
-RUN export RISCV=/opt/riscv
-RUN export PATH=$RISCV/bin:$PATH
+ENV RISCV=/opt/riscv
+ENV PATH=$RISCV/bin:$PATH
 RUN mkdir -p /opt/riscv-projects
 VOLUME /opt/riscv-projects
 WORKDIR /opt/riscv-projects
